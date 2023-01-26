@@ -32,7 +32,9 @@ def check_if_all_in_good_orientation(imagesTr_folder: str, labelsTr_folder: str,
     for n in filenames:
         img = sitk.GetArrayFromImage(sitk.ReadImage(join(imagesTr_folder, n[:-7] + '_0000.nii.gz')))
         lab = sitk.GetArrayFromImage(sitk.ReadImage(join(labelsTr_folder, n)))
-        assert np.all([i == j for i, j in zip(img.shape, lab.shape)]), f"File name: {n}"
+        assert np.all([i == j for i, j in zip(img.shape, lab.shape)]), \
+            f"File name: {n}, shape img: {img.shape}, shape label: {lab.shape}, " \
+            f"img file name: {join(imagesTr_folder, n[:-7] + '_0000.nii.gz')}, label file name: {join(labelsTr_folder, n)}"
         z_slice = img.shape[0] // 2
         img_slice = img[z_slice]
         lab_slice = lab[z_slice]
